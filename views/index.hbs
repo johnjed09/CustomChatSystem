@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+  <link rel="shortcut icon" type="image/x-icon" href="/img/shortcut-icon.ico" />
+  <link rel="mask-icon" href="/img/mask-icon.svg" color="#111" />  
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap-4.min.css"  id="bootstrap-css">
+  <link rel='stylesheet prefetch' href='/css/meyer-reset.min.css'>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300'  type='text/css'>
+  <link rel='stylesheet prefetch'
+    href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+  <link rel="stylesheet" href="/css/bootstrap-toggle.min.css">
+  <link rel="stylesheet" href="/css/chat.css">  
+
+  <script src="/js/jquery-3.3.1.slim.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>  
+  <script src="/js/bootstrap-toggle.min.js"></script>
+</head>
+
+<body>
+    <div id="loading"></div>
+
+    <div id="frame">
+        <div id="sidepanel">
+            <div id="profile">
+                <div class="wrap">
+                    <!--Avatar Profile-->
+                    <img id="profile-img" src="/img/default.png" class="online"/>
+                    <p class="my-username"></p>
+
+                    <!--Show addContact section/settings section-->
+                    <i class="fa fa-chevron-down expand-button"></i>
+                    
+                    <!--Profile Options-->
+                    <div id="status-options">
+                        <ul>
+                            <li id="logout-option"><i class="fa fa-sign-out status-option" aria-hidden="true"></i>
+                                <p>Logout</p>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!--Log Settings-->
+                    <div id="settings-expanded">
+                        <div class="logSettings">      
+                            <input type="checkbox" checked data-toggle="toggle" data-on="On" data-off="Off" data-onstyle="ch-success" data-offstyle="ch-danger" id="ssl">&nbsp;&nbsp; Server-side log <br><br>
+                            <input type="checkbox" checked data-toggle="toggle" data-on="On" data-off="Off" data-onstyle="ch-success" data-offstyle="ch-danger" id="csl">&nbsp;&nbsp; Client-side log <br>
+                        </div>
+                    </div>
+                    <!--Add Contact Settings-->
+                    <div id="add-contact-expanded">
+                        <div class="logSettings text-right">      
+                            <div>
+                                <input type="text" class="form-control" placeholder="Please Enter Username" id="userNameToAdd">
+                                <button type="button" class="btn btn-primary" id="saveContact" onclick="addChatInvite()" data-dismiss="modal">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!--Contact List-->
+            <div id="contacts">
+                <ul></ul>
+            </div>
+            
+            <!--Side-panel bottom buttons-->
+            <div id="bottom-bar">
+                <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+                <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+            </div>
+        </div>
+
+        <!--WELCOME SCREEN-->
+        <div class="initial-content h-100">
+            <div class="row h-100">
+                <div class="col-md-12 p-4">
+                    <div class="h-100 d-flex justify-content-center align-items-center text-center">
+                        <div>
+                            <h1>Welcome to our Custom Chat App</h1>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>  
+
+        <div class="content">
+            <!--Select Messages-->
+            <div class="contact-profile">
+                <img src=""/>
+                <p class="user-display"></p>
+                
+                <div class="other-options dropdown-toggle position-absolute" style="right:0px;">
+                    <div class="dropdown">
+                        <!--Show Select Options-->
+                        <i class="fa fa-ellipsis-v" aria-hidden="true" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 10px 20px 10px 20px"></i>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" id="slctMsg">Select</a>
+                            <a class="dropdown-item" id="slctAllMsg">Select All</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Message Logs-->
+            <div class="messages">
+            </div>
+
+            <!--Write new messages-->
+            <div class="message-input" id="mi">
+                <div class="wrap d-flex">
+                    <textarea name="text" id="text" placeholder="Write your message..." class="w-100"></textarea>
+                    
+                    <div class="image-upload">
+                        <label for="fileD">
+                        <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+                        </label>
+                        <input id="fileD" multiple="multiple" type="file" onchange="newFileMessage()"/>
+                    </div>
+                    
+                    <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                </div>
+            </div>
+
+            <!--Delete options-->
+            <div class="message-input select-delete text-white">
+                <div class="wrap">          
+                    <button class="cancelDel" onclick="cancelDel()"><i class="fa fa-times" aria-hidden="true"></i></button>          
+                    <label><span class="selectedCount">0</span> selected</label>
+                    <button class="submitDel"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="ws_url" value="{{ws_url}}">
+    <input type="hidden" id="ws_port" value="{{ws_port}}">
+
+    <!-- ALERT MESSAGES -->
+    <div id="alertPlaceholder"></div>
+    <div id="modalPlaceholder"></div>
+    <!-- ALERT MESSAGES -->
+  
+    <script src='/js/jquery-2.2.4.min.js'></script>
+    <script src='/js/index.js'></script>
+</body>
+</html>
