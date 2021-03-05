@@ -194,7 +194,7 @@ exports.invitationList = async (req) => {
 
     return new Promise((resolve, reject) => {
         try {
-            db.query('SELECT i.id, i.from_user_id, i.to_user_id, i.date_invited, i.date_validated, i.status, u.username, f.file_name, f.file FROM invite as i INNER JOIN user as u ON i.from_user_id = u.id INNER JOIN files as f ON u.file_id = f.id WHERE i.to_user_id = ? AND i.status = 0', [from_user_id], (error, result) => {;
+            db.query('SELECT i.id, i.from_user_id, i.to_user_id, i.date_invited, i.status, u.username, f.file_name, f.file FROM invite as i INNER JOIN user as u ON i.from_user_id = u.id INNER JOIN files as f ON u.file_id = f.id WHERE i.to_user_id = ? AND i.status = 0', [from_user_id], (error, result) => {;
                 if (error) {
                     reject(error.toString('utf8'));
                 }
